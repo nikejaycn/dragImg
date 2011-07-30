@@ -1,0 +1,35 @@
+/* css reset */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, lengend, button, input, textarea, th, td {margin: 0;padding: 0;}
+::-moz-selection{background:#ff5e99;color:white;text-shadow:none}::selection{background:#ff5e99;color:white;text-shadow:none}
+body,button, input, select, textarea {
+font: normal normal normal 11pt/1.6em Tahoma,Verdana,"BitStream vera Sans",Arial,Helvetica,Sans-serif;
+}
+
+h1 { font-size: 18px; }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+code, kbd, pre, samp, tt { font-family: Consolas, "Courier New", Courier, monospace; }
+small { font-size: 12px; }
+ul, ol { list-style: none; }
+a { text-decoration: none; color:#06c;}
+a:hover { text-decoration: underline; }
+abbr[title], acronym[title] { border-bottom: 1px dotted;cursor: help;}
+q:before, q:after { content: ''; }
+legend { color: #000; }
+fieldset, img { border: none; }
+button, input, select, textarea {font-size: 100%;}
+table {border-collapse: collapse;border-spacing: 0;}
+hr { border: none;height: 1px;}
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+.clear{clear:both;}
+.hidden{visibility:hidden;}
+
+/* container */
+#container{width:800px; margin:0 auto;}
+.drag_img{max-width:120px; padding:1px; border:1px solid #ccc;}
+.drag_box{display:inline-block; cursor:move; margin:0 15px;}
