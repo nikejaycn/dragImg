@@ -42,5 +42,53 @@
             <div class="drag_box"><img src="images/032.jpg" alt="" class="drag_img" /></div>
         </div>
         <div id="footer"></div>
+		<script type="text/javascript" src="js/drag.js"></script>
+		<script type="text/javascript">
+			var x, y, z, down = false, obj;
+			function init(){
+				obj = event.srcElement;	//事件触发对象
+				obj.setCapture();	//设置获取当前对象的鼠标捕捉
+				z = obj.style.zIndex;	//获取对象的z轴的坐标值
+				
+				obj.style.zIndex = 100;	//设置对象的坐标轴，确保当前层显示在最前面
+				x = event.offsetX;	//获取x
+				y = event.offsetY;	//获取Y
+				
+				down = true;
+			}
+			
+			function moveit(){
+				//判断鼠标已经被按下且onmouseover和onmousedown事件发生在同一个对象上
+				if(down&&event.srcElement == obj){
+					with(obj.style){
+						/*设置对象的X坐标值为文档在X轴
+						  方向上的滚动距离加上当前鼠标
+						  指针相当于文档对象的X坐标值减
+						  鼠标按下时指针位置相对于触发
+						  事件的对象的X坐标
+						*/ 
+						posLeft = document.body.scrollLeft + event.x - x;
+						
+						/*设置对象的Y坐标值为文档在Y轴方
+						  向上的滚动距离加上当前鼠标指针相
+						  当于文档对象的Y坐标值减鼠标按下
+						  时指针位置相对于触发事件的对象的Y坐标
+						*/
+						
+						posTop = document.body.scrollTop + event.y - y;
+					}
+				}
+			}
+			
+			function stopdrag(){
+				//onmouseup事件触发说明鼠标已经放开，所以设置down变量值为false
+				down = false;
+				obj.style.zIndex = z;
+				obj.releaseCapture(); //释放当前对象的鼠标捕捉
+			}
+			
+			document.getElementById("container").getElementsByTagName("div").onmousedown = init();
+			
+		</script>
     </body>
 </html>

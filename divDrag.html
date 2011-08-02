@@ -1,9 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <title>·ÂiGoogle×Ô¶¨ÒåÊ×Ò³Ä£¿éÍÏ×§Ğ§¹û</title>
+        <title>ä»¿iGoogleè‡ªå®šä¹‰é¦–é¡µæ¨¡å—æ‹–æ‹½æ•ˆæœ</title>
         <script type="text/javascript">
             var Common = {
+				getId: function(id){
+					return document.getElementById(id);
+				},
                 getEvent: function() {//ie/ff
                     if (document.all) {
                         return window.event;
@@ -20,6 +23,7 @@
                     }
                     return null;
                 },
+				//è·å–é¼ æ ‡çš„ä½ç½®ï¼Œè¿”å›{x:0, y:0}è¿™æ ·çš„å½¢å¼
                 getMousePos: function(ev) {
                     if (!ev) {
                         ev = this.getEvent();
@@ -43,6 +47,7 @@
                         };
                     }
                 },
+				//è·å–å…ƒç´ ä½ç½®ï¼Œè¿”å›{x:0, y:0}è¿™æ ·çš„å½¢å¼
                 getElementPos: function(el) {
                     el = this.getItself(el);
                     var _x = 0, _y = 0;
@@ -52,12 +57,16 @@
                     } while (el = el.offsetParent);
                     return { x: _x, y: _y };
                 },
+				//è¿”å›æœ¬èº«
                 getItself: function(id) {
-                    return "string" == typeof id ? document.getElementById(id) : id;
+                    return "string" == typeof id ? Common.getId(id) : id;
                 },
+				//è·å–è§†çª—å¤§å°
                 getViewportSize: { w: (window.innerWidth) ? window.innerWidth : (document.documentElement && document.documentElement.clientWidth) ? document.documentElement.clientWidth : (document.body?document.body.offsetWidth:0), h: (window.innerHeight) ? window.innerHeight : (document.documentElement && document.documentElement.clientHeight) ? document.documentElement.clientHeight : (document.body ? document.body.offsetHeight : 0) },
-                isIE: document.all ? true : false,
-                setOuterHtml: function(obj, html) {
+                //åˆ¤æ–­æ˜¯å¦ä¸ºIE
+				isIE: document.all ? true : false,
+                //è®¾ç½®å¤–éƒ¨HTML
+				setOuterHtml: function(obj, html) {
                     var Objrange = document.createRange();
                     obj.innerHTML = html;
                     Objrange.selectNodeContents(obj);
@@ -65,6 +74,7 @@
                     obj.parentNode.insertBefore(frag, obj);
                     obj.parentNode.removeChild(obj);
                 },
+				//è·å–ç¬¬ä¸€ä¸ªå­å…ƒç´ 
                 firstChild: function(parentObj, tagName) {
                     if (Common.isIE) {
                         return parentObj.firstChild;
@@ -74,6 +84,7 @@
                         return arr[0];
                     }
                 },
+				//è·å–æœ€åä¸€ä¸ªå­å…ƒç´ 
                 lastChild: function(parentObj, tagName) {
                     if (Common.isIE) {
                         return parentObj.lastChild;
@@ -83,9 +94,11 @@
                         return arr[arr.length - 1];
                     }
                 },
+				//è®¾ç½®cookiesï¼Œä¿å­˜æœ€åæœ€åçŠ¶æ€
                 setCookie: function(name, value) {
                     document.cookie = name + "=" + value;
                 },
+				//è·å–cookiesï¼Œæ˜¾ç¤ºæœ€åçŠ¶æ€
                 getCookie: function(name) {
                     var strCookie = document.cookie;
                     var arrCookie = strCookie.split("; ");
@@ -100,6 +113,7 @@
                     }
                     return "";
                 },
+				//æ¸…é™¤cookies
                 delCookie: function(name) {
                     var exp = new Date();
                     exp.setTime(exp.getTime() - 1);
@@ -111,17 +125,19 @@
             ///------------------------------------------------------------------------------------------------------
             var Class = {
                 create: function() {
-                    return function() { this.init.apply(this, arguments); }
+                    return function() { 
+						this.init.apply(this, arguments);
+					}
                 }
             }
             var Drag = Class.create();
             Drag.prototype = {
-                init: function(titleBar, dragDiv, Options) {
-                    //ÉèÖÃµã»÷ÊÇ·ñÍ¸Ã÷£¬Ä¬ÈÏÍ¸Ã÷60%
-                    titleBar = Common.getItself(titleBar);
+                init: function(dragDiv, Options) {
+                    //è®¾ç½®ç‚¹å‡»æ˜¯å¦é€æ˜ï¼Œé»˜è®¤é€æ˜60%
+                    //titleBar = Common.getItself(titleBar);
                     dragDiv = Common.getItself(dragDiv);
                     this.dragArea = { maxLeft: -9999, maxRight: 9999, maxTop: -9999, maxBottom: 9999 };
-                    if (Options) {
+					if (Options) {
                         this.opacity = Options.opacity ? (isNaN(parseInt(Options.opacity)) ? 100 : parseInt(Options.opacity)) : 100;
                         if (Options.area) {
                             if (Options.area.left && !isNaN(parseInt(Options.area.left))) { this.dragArea.maxLeft = Options.area.left };
@@ -133,22 +149,25 @@
                     else {
                         this.opacity = 60;
                     }
+					
                     this.originDragDiv = null;
                     this.tmpX = 0;
                     this.tmpY = 0;
                     this.moveable = false;
                     this.dragArray = [];
                     var dragObj = this;
-                    var dragTbl = document.getElementById("dragTable");
-                    titleBar.onmousedown = function(e) {
+                    var dragTbl = Common.getId("dragTable");
+					
+					//ä¿®æˆä¸ºå…¨ä½“ç§»åŠ¨ é¼ æ ‡ç‚¹å‡»å¯ä»¥ç§»åŠ¨
+                    dragDiv.onmousedown = function(e) {
                         var ev = e || window.event || Common.getEvent();
-                        //Ö»ÔÊĞíÍ¨¹ıÊó±ê×ó¼ü½øĞĞÍÏ×§,IEÊó±ê×ó¼üÎª1 FireFoxÎª0
+                        //åªå…è®¸é€šè¿‡é¼ æ ‡å·¦é”®è¿›è¡Œæ‹–æ‹½,IEé¼ æ ‡å·¦é”®ä¸º1 FireFoxä¸º0
                         if (Common.isIE && ev.button == 1 || !Common.isIE && ev.button == 0) {
                         }
                         else {
                             return false;
                         }
-                        //´¦ÀíÌØÊâÇé¿ö£ºÔÚ×îÉÏ/ÏÂÃæMOVEÊ±²»Åöµ½ÏÖÓĞDIVµÄÇé¿öÏÂ£¬ÓÖ»Øµ½ÆğÊ¼ÍÏ×§µÄÁĞ×îÉÏ/ÏÂ·½
+                        //å¤„ç†ç‰¹æ®Šæƒ…å†µï¼šåœ¨æœ€ä¸Š/ä¸‹é¢MOVEæ—¶ä¸ç¢°åˆ°ç°æœ‰DIVçš„æƒ…å†µä¸‹ï¼Œåˆå›åˆ°èµ·å§‹æ‹–æ‹½çš„åˆ—æœ€ä¸Š/ä¸‹æ–¹
                         var tmpColId;
                         for (c = 0; c < dragTbl.rows[0].cells.length; c++) {
                             for (k = 0; k < dragTbl.rows[0].cells[c].getElementsByTagName("DIV").length; k++) {
@@ -160,24 +179,30 @@
                         }
                         var tmpPosFirstChild = Common.getElementPos(Common.firstChild(dragTbl.rows[0].cells[tmpColId], "DIV"));
                         var tmpPosLastChild = Common.getElementPos(Common.lastChild(dragTbl.rows[0].cells[tmpColId], "DIV"));
-                        var tmpObj = { colId: tmpColId, firstChildUp: tmpPosFirstChild.y, lastChildDown: tmpPosLastChild.y + Common.lastChild(dragTbl.rows[0].cells[tmpColId], "DIV").offsetHeight };
-                        //±£´æµ±Ç°¿ÉÍÏ×§¸÷ÈİÆ÷µÄËùÔÚÎ»ÖÃ
+                        var tmpObj = {
+							colId: tmpColId,
+							firstChildUp: tmpPosFirstChild.y,
+							lastChildDown: tmpPosLastChild.y + Common.lastChild(dragTbl.rows[0].cells[tmpColId],"DIV").offsetHeight
+						};
+                        //ä¿å­˜å½“å‰å¯æ‹–æ‹½å„å®¹å™¨çš„æ‰€åœ¨ä½ç½®
                         dragObj.dragArray = dragObj.RegDragsPos();
-                        //²åÈëĞéÏß¿ò
+						
+                        //æ’å…¥è™šçº¿æ¡†å¹¶è®¾ç½®æ ·å¼
                         var dashedElement = document.createElement("div");
                         dashedElement.style.cssText = dragDiv.style.cssText;
                         dashedElement.style.border = " dashed 2px #aaa ";
                         dashedElement.style.marginBottom = "6px";
-                        dashedElement.style.width = dragDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px"; //¼õÈ¥boderWidthÊ¹ĞéÏß¿ò´óĞ¡±£³ÖÓëdragDivÒ»ÖÂ
-                        dashedElement.style.height = dragDiv.offsetHeight - 2 * parseInt(dashedElement.style.borderWidth) + "px"; //¼ÓÉÏpx ±£Ö¤FFÕıÈ·        
+                        dashedElement.style.width = dragDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px"; //å‡å»boderWidthä½¿è™šçº¿æ¡†å¤§å°ä¿æŒä¸dragDivä¸€è‡´
+                        dashedElement.style.height = dragDiv.offsetHeight - 2 * parseInt(dashedElement.style.borderWidth) + "px"; //åŠ ä¸Špx ä¿è¯FFæ­£ç¡®        
                         dashedElement.style.position = "relative";
+						
                         if (dragDiv.nextSibling) {
                             dragDiv.parentNode.insertBefore(dashedElement, dragDiv.nextSibling);
                         }
                         else {
                             dragDiv.parentNode.appendChild(dashedElement);
                         }
-                        //ÍÏ¶¯Ê±±äÎªabsolute
+                        //æ‹–åŠ¨æ—¶å˜ä¸ºabsolute
                         dragDiv.style.width = dragDiv.offsetWidth + "px";
                         dragDiv.style.position = "absolute";
                         dragObj.moveable = true;
@@ -185,13 +210,14 @@
                         var downPos = Common.getMousePos(ev);
                         dragObj.tmpX = downPos.x - dragDiv.offsetLeft;
                         dragObj.tmpY = downPos.y - dragDiv.offsetTop;
+						
                         if (Common.isIE) {
                             dragDiv.setCapture();
                         } else {
                             window.captureEvents(Event.mousemove);
                         }
                         dragObj.SetOpacity(dragDiv, dragObj.opacity);
-                        //FireFox È¥³ıÈİÆ÷ÄÚÍÏ×§Í¼Æ¬ÎÊÌâ
+                        //FireFox å»é™¤å®¹å™¨å†…æ‹–æ‹½å›¾ç‰‡é—®é¢˜
                         if (ev.preventDefault) {
                             ev.preventDefault();
                             ev.stopPropagation();
@@ -199,7 +225,7 @@
                         document.onmousemove = function(e) {
                             if (dragObj.moveable) {
                                 var ev = e || window.event || Common.getEvent();
-                                //IE È¥³ıÈİÆ÷ÄÚÍÏ×§Í¼Æ¬ÎÊÌâ
+                                //IE å»é™¤å®¹å™¨å†…æ‹–æ‹½å›¾ç‰‡é—®é¢˜
                                 if (document.all) //IE
                                 {
                                     ev.returnValue = false;
@@ -215,14 +241,14 @@
                                     if (movePos.x > dragObj.dragArray[k].PosLeft && movePos.x < dragObj.dragArray[k].PosLeft + dragObj.dragArray[k].PosWidth
                                         && movePos.y > dragObj.dragArray[k].PosTop && movePos.y < dragObj.dragArray[k].PosTop + dragObj.dragArray[k].PosHeight
                                 ) {
-                                        targetDiv = document.getElementById(dragObj.dragArray[k].DragId);
+                                        targetDiv = Common.getId(dragObj.dragArray[k].DragId);
                                         if (movePos.y < dragObj.dragArray[k].PosTop + dragObj.dragArray[k].PosHeight / 2) {
-                                            //ÍùÉÏÒÆ
+                                            //å¾€ä¸Šç§»
                                             dashedElement.style.width = targetDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                             targetDiv.parentNode.insertBefore(dashedElement, targetDiv);
                                         }
                                         else {
-                                            //ÍùÏÂÒÆ
+                                            //å¾€ä¸‹ç§»
                                             dashedElement.style.width = targetDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                             if (targetDiv.nextSibling) {
                                                 targetDiv.parentNode.insertBefore(dashedElement, targetDiv.nextSibling);
@@ -237,7 +263,7 @@
                                 for (j = 0; j < dragTbl.rows[0].cells.length; j++) {
                                     var startLeft = Common.getElementPos(dragTbl.rows[0].cells[j]).x;
                                     if (movePos.x > startLeft && movePos.x < startLeft + dragTbl.rows[0].cells[j].offsetWidth) {
-                                        ///ÁĞÎŞDIV
+                                        ///åˆ—æ— DIV
                                         if (dragTbl.rows[0].cells[j].getElementsByTagName("div").length == 0) {
                                             dashedElement.style.width = dragTbl.rows[0].cells[j].offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                             dragTbl.rows[0].cells[j].appendChild(dashedElement);
@@ -245,7 +271,7 @@
                                         else {
                                             var posFirstChild = Common.getElementPos(Common.firstChild(dragTbl.rows[0].cells[j], "DIV"));
                                             var posLastChild = Common.getElementPos(Common.lastChild(dragTbl.rows[0].cells[j], "DIV"));
-                                            //´¦ÀíÌØÊâÇé¿ö£ºÔÚ×îÉÏ/ÏÂÃæMOVEÊ±²»Åöµ½ÏÖÓĞDIVµÄÇé¿öÏÂ£¬ÓÖ»Øµ½ÆğÊ¼ÍÏ×§µÄÁĞ×îÉÏ/ÏÂ·½
+                                            //å¤„ç†ç‰¹æ®Šæƒ…å†µï¼šåœ¨æœ€ä¸Š/ä¸‹é¢MOVEæ—¶ä¸ç¢°åˆ°ç°æœ‰DIVçš„æƒ…å†µä¸‹ï¼Œåˆå›åˆ°èµ·å§‹æ‹–æ‹½çš„åˆ—æœ€ä¸Š/ä¸‹æ–¹
                                             var tmpUp, tmpDown;
                                             if (tmpObj.colId == j) {
                                                 tmpUp = tmpObj.firstChildUp;
@@ -255,11 +281,11 @@
                                                 tmpUp = posFirstChild.y;
                                                 tmpDown = posLastChild.y + Common.lastChild(dragTbl.rows[0].cells[j], "DIV").offsetHeight;
                                             }
-                                            if (movePos.y < tmpUp) {///´Ó×îÉÏÃæ²åÈëĞéÏß¿ò
+                                            if (movePos.y < tmpUp) {///ä»æœ€ä¸Šé¢æ’å…¥è™šçº¿æ¡†
                                                 dashedElement.style.width = Common.firstChild(dragTbl.rows[0].cells[j], "DIV").offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                                 dragTbl.rows[0].cells[j].insertBefore(dashedElement, Common.firstChild(dragTbl.rows[0].cells[j], "DIV"));
                                             }
-                                            else if (movePos.y > tmpDown) {///´Ó×îÏÂÃæ²åÈëĞéÏß¿ò
+                                            else if (movePos.y > tmpDown) {///ä»æœ€ä¸‹é¢æ’å…¥è™šçº¿æ¡†
                                                 dashedElement.style.width = Common.lastChild(dragTbl.rows[0].cells[j], "DIV").offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                                 dragTbl.rows[0].cells[j].appendChild(dashedElement);
                                             }
@@ -280,7 +306,7 @@
                                 dragObj.moveable = false;
                                 dragObj.tmpX = 0;
                                 dragObj.tmpY = 0;
-                                //Îñ±ØĞ´ÔÚ´ËIFÄÚ
+                                //åŠ¡å¿…å†™åœ¨æ­¤IFå†…
                                 dragDiv.style.left = "";
                                 dragDiv.style.top = "";
                                 dragDiv.style.width = "";
@@ -309,7 +335,7 @@
                 },
                 RegDragsPos: function() {
                     var arrDragDivs = new Array();
-                    var dragTbl = document.getElementById("dragTable");
+                    var dragTbl = Common.getId("dragTable");
                     var tmpDiv, tmpPos;
                     for (i = 0; i < dragTbl.getElementsByTagName("div").length; i++) {
                         tmpDiv = dragTbl.getElementsByTagName("div")[i];
@@ -322,23 +348,23 @@
                 }
             }
             window.onload = function() {
-                var dragTbl = document.getElementById("dragTable");
+                var dragTbl = Common.getId("dragTable");
                 if (Common.getCookie("configArr")) {
                     var configArr = eval("(" + Common.getCookie("configArr") + ")");
                     for (i = 0; i < dragTbl.rows[0].cells.length; i++) {
                         for (j = 0; j < configArr[i].length; j++) {
-                            dragTbl.rows[0].cells[i].appendChild(document.getElementById(configArr[i][j]));
+                            dragTbl.rows[0].cells[i].appendChild(Common.getId(configArr[i][j]));
                         }
                     }
                 }
-                new Drag("titleBar1", "dragDiv1");
-                new Drag("titleBar2", "dragDiv2");
-                new Drag("titleBar3", "dragDiv3");
-                new Drag("titleBar4", "dragDiv4");
-                new Drag("titleBar5", "dragDiv5");
+                new Drag("dragDiv1");
+                new Drag("dragDiv2");
+                new Drag("dragDiv3");
+                new Drag("dragDiv4");
+                new Drag("dragDiv5");
             }
             window.onunload = function() {
-                var dragTbl = document.getElementById("dragTable");
+                var dragTbl = Common.getId("dragTable");
                 var configArr = "";
                 for (i = 0; i < dragTbl.rows[0].cells.length; i++) {
                     var tmpStr = "";
@@ -363,6 +389,7 @@
                 opacity:1;
                 margin-bottom:6px;
                 background-color:#FFFFFF;
+				cursor:move;
             }
         </style>
     </head>
@@ -374,17 +401,17 @@
                 <td valign="top" style="width:30%">
                     <div class="dragDiv" id="dragDiv1" >
                         <table cellpadding="0" cellspacing="0" border="1" style="width:100%;border-collapse:collapse; border-color:Blue">
-                            <tr id="titleBar1"  style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;cursor:move;">
+                            <tr id="titleBar1"  style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;">
                                 <th align="left" unselectable="on" >Title1</th>
                             </tr>
                             <tr style="height:130px;padding:3px;" align="left" valign="top" >
-                                <td unselectable="on">ÕâÀïµÄ×Ö±È½Ï³¤....ÎÒÀ´ÁË....ÖĞ¹ú....ÖĞ¹ú...Íâ¹ú.£¬¿´Ò»ÏÂÓĞÃ»ÓĞÒç³öÕâÀïµÄ×Ö±È½Ï³¤....ÎÒÀ´ÁË....ÖĞ¹ú....ÖĞ¹ú...Íâ¹ú.£¬¿´Ò»ÏÂÓĞÃ»ÓĞÒç³ö</td> 
+                                <td unselectable="on">è¿™é‡Œçš„å­—æ¯”è¾ƒé•¿....æˆ‘æ¥äº†....ä¸­å›½....ä¸­å›½...å¤–å›½.ï¼Œçœ‹ä¸€ä¸‹æœ‰æ²¡æœ‰æº¢å‡ºè¿™é‡Œçš„å­—æ¯”è¾ƒé•¿....æˆ‘æ¥äº†....ä¸­å›½....ä¸­å›½...å¤–å›½.ï¼Œçœ‹ä¸€ä¸‹æœ‰æ²¡æœ‰æº¢å‡º</td> 
                             </tr>
                         </table>
                     </div>   
                     <div class="dragDiv" id="dragDiv2">
                         <table cellpadding="0" cellspacing="0" border="1" style="width:100%;border-collapse:collapse; border-color:Blue">
-                            <tr id="titleBar2" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;cursor:move;">
+                            <tr id="titleBar2" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;">
                                 <th align="left" unselectable="on" >Title2</th>
                             </tr>
                             <tr style="height:130px;padding:3px;" align="left" valign="top" >
@@ -396,7 +423,7 @@
                 <td valign="top" style="width:50%">
                     <div class="dragDiv" id="dragDiv3">
                         <table cellpadding="0" cellspacing="0" border="1" style="width:100%;border-collapse:collapse; border-color:Blue">
-                            <tr id="titleBar3" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;cursor:move;">
+                            <tr id="titleBar3" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;">
                                 <th align="left" unselectable="on" >Title3</th>
                             </tr>
                             <tr style="height:230px;padding:3px;" align="left" valign="top" >
@@ -408,7 +435,7 @@
                 <td valign="top" style="width:20%">
                     <div class="dragDiv" id="dragDiv4">
                         <table cellpadding="0" cellspacing="0" border="1" style="width:100%;border-collapse:collapse; border-color:Blue">
-                            <tr id="titleBar4" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;cursor:move;">
+                            <tr id="titleBar4" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;">
                                 <th align="left" unselectable="on" >Title4</th>
                             </tr>
                             <tr style="height:130px;padding:3px;" align="left" valign="top" >
@@ -418,7 +445,7 @@
                     </div>
                     <div class="dragDiv" id="dragDiv5">
                         <table cellpadding="0" cellspacing="0" border="1" style="width:100%;border-collapse:collapse; border-color:Blue">
-                            <tr id="titleBar5" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;cursor:move;">
+                            <tr id="titleBar5" style="height:22px; text-align:left; background-color:#547BC9;color:White; padding:3px;">
                                 <th align="left" unselectable="on" >Title5</th>
                             </tr>
                             <tr style="height:130px;padding:3px;" align="left" valign="top" >

@@ -30,5 +30,25 @@ var $ = {
 		}
 		
 		return cacheArr;
+	},
+	"getMousePosition" :  function(ev){
+		if (ev.pageX || ev.pageY) {
+            return {
+				x: ev.pageX,
+                y: ev.pageY
+            };
+        }
+		if (document.documentElement && document.documentElement.scrollTop) {
+            return {
+				x: ev.clientX + document.documentElement.scrollLeft - document.documentElement.clientLeft,
+                y: ev.clientY + document.documentElement.scrollTop - document.documentElement.clientTop
+            };
+        }
+        else if (document.body) {
+            return {
+                x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+                y: ev.clientY + document.body.scrollTop - document.body.clientTop
+            };
+        }
 	}
 }
