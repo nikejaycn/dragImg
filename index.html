@@ -1,94 +1,74 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
     <head>
-        <meta charset="utf-8">
-        <title>图片拖拽</title>
-		<link rel="stylesheet" href="style.css" />
+        <meta charset="gbk">
+        <title>ͼƬ��ק</title>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div id="header"></div>
-        <div id="container">
-            <div class="drag_box"><img src="images/001.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/002.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/003.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/004.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/005.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/006.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/007.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/008.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/009.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/010.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/011.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/012.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/013.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/014.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/015.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/016.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/017.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/018.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/019.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/020.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/021.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/022.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/023.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/024.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/025.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/026.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/027.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/028.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/029.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/030.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/031.jpg" alt="" class="drag_img" /></div>
-            <div class="drag_box"><img src="images/032.jpg" alt="" class="drag_img" /></div>
-        </div>
+        <div id="container" class="clearfix">
+            <div class="wrap">
+                <div class="dragDiv" id="dragDiv1"><img class="dragImg" src="images/001.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv2"><img class="dragImg" src="images/002.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv3"><img class="dragImg" src="images/003.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv4"><img class="dragImg" src="images/004.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv5"><img class="dragImg" src="images/005.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv6"><img class="dragImg" src="images/006.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv7"><img class="dragImg" src="images/007.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv8"><img class="dragImg" src="images/008.jpg" alt="" class="drag_img" /></div>
+            </div>
+            <div class="wrap">
+                <div class="dragDiv" id="dragDiv9"><img class="dragImg" src="images/009.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv10"><img class="dragImg" src="images/010.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv11"><img class="dragImg" src="images/011.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv12"><img class="dragImg" src="images/012.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv13"><img class="dragImg" src="images/013.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv14"><img class="dragImg" src="images/014.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv15"><img class="dragImg" src="images/015.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv16"><img class="dragImg" src="images/016.jpg" alt="" class="drag_img" /></div>
+            </div>
+            <div class="wrap">
+                <div class="dragDiv" id="dragDiv17"><img class="dragImg" src="images/017.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv18"><img class="dragImg" src="images/018.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv19"><img class="dragImg" src="images/019.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv20"><img class="dragImg" src="images/020.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv21"><img class="dragImg" src="images/021.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv22"><img class="dragImg" src="images/022.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv23"><img class="dragImg" src="images/023.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv24"><img class="dragImg" src="images/024.jpg" alt="" class="drag_img" /></div>
+            </div>
+            <div class="wrap">
+                <div class="dragDiv" id="dragDiv25"><img class="dragImg" src="images/025.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv26"><img class="dragImg" src="images/026.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv27"><img class="dragImg" src="images/027.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv28"><img class="dragImg" src="images/028.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv29"><img class="dragImg" src="images/029.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv30"><img class="dragImg" src="images/030.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv31"><img class="dragImg" src="images/031.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv32"><img class="dragImg" src="images/032.jpg" alt="" class="drag_img" /></div>
+            </div>
+            <div class="wrap">
+                <div class="dragDiv" id="dragDiv33"><img class="dragImg" src="images/033.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv34"><img class="dragImg" src="images/034.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv35"><img class="dragImg" src="images/035.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv36"><img class="dragImg" src="images/036.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv37"><img class="dragImg" src="images/037.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv38"><img class="dragImg" src="images/038.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv39"><img class="dragImg" src="images/039.jpg" alt="" class="drag_img" /></div>
+                <div class="dragDiv" id="dragDiv40"><img class="dragImg" src="images/040.jpg" alt="" class="drag_img" /></div>
+            </div>
         <div id="footer"></div>
-		<script type="text/javascript" src="js/drag.js"></script>
-		<script type="text/javascript">
-			var x, y, z, down = false, obj;
-			function init(){
-				obj = event.srcElement;	//事件触发对象
-				obj.setCapture();	//设置获取当前对象的鼠标捕捉
-				z = obj.style.zIndex;	//获取对象的z轴的坐标值
-				
-				obj.style.zIndex = 100;	//设置对象的坐标轴，确保当前层显示在最前面
-				x = event.offsetX;	//获取x
-				y = event.offsetY;	//获取Y
-				
-				down = true;
-			}
-			
-			function moveit(){
-				//判断鼠标已经被按下且onmouseover和onmousedown事件发生在同一个对象上
-				if(down&&event.srcElement == obj){
-					with(obj.style){
-						/*设置对象的X坐标值为文档在X轴
-						  方向上的滚动距离加上当前鼠标
-						  指针相当于文档对象的X坐标值减
-						  鼠标按下时指针位置相对于触发
-						  事件的对象的X坐标
-						*/ 
-						posLeft = document.body.scrollLeft + event.x - x;
-						
-						/*设置对象的Y坐标值为文档在Y轴方
-						  向上的滚动距离加上当前鼠标指针相
-						  当于文档对象的Y坐标值减鼠标按下
-						  时指针位置相对于触发事件的对象的Y坐标
-						*/
-						
-						posTop = document.body.scrollTop + event.y - y;
-					}
-				}
-			}
-			
-			function stopdrag(){
-				//onmouseup事件触发说明鼠标已经放开，所以设置down变量值为false
-				down = false;
-				obj.style.zIndex = z;
-				obj.releaseCapture(); //释放当前对象的鼠标捕捉
-			}
-			
-			document.getElementById("container").getElementsByTagName("div").onmousedown = init();
-			
-		</script>
-    </body>
+    </div>
+    <script type="text/javascript" src="js/public.js"></script>
+    <script type="text/javascript" src="js/drag.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            var dragDivClass = $.getClass("dragDiv");
+            for(var i = 0; i < dragDivClass.length; i++){
+                new Drag(dragDivClass[i], "wrap");
+            }
+        }
+    </script>
+</body>
 </html>
