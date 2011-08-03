@@ -10,8 +10,12 @@ Drag.prototype = {
     init: function(dragDiv, wrapDiv) {
         //外层
         wrapDiv = $.getClass(wrapDiv);
-        //盒子元素
         dragDiv = $.getItself(dragDiv);
+		
+		//判断ctrl键是否被按下
+		isCtrl = false;
+		
+		//最大移动范围
         this.dragArea = {
             maxLeft: -9999,
             maxRight: 9999,
@@ -33,6 +37,9 @@ Drag.prototype = {
             var ev = e || window.event || $.getEvent();
             //只允许通过鼠标左键进行拖拽,IE鼠标左键为1 FireFox为0
             if ($.isIE && ev.button == 1 || !$.isIE && ev.button == 0) {
+				if($.getCtrl(ev)){
+					isCtrl = true;
+				}
             }
             else {
                 return false;
@@ -109,9 +116,7 @@ Drag.prototype = {
                         if (dragDiv == dragObj.dragArray[i]) {
                             continue;
                         }
-                        if (movePos.x > dragObj.dragArray[k].PosLeft && movePos.x < dragObj.dragArray[k].PosLeft + dragObj.dragArray[k].PosWidth
-                            && movePos.y > dragObj.dragArray[k].PosTop && movePos.y < dragObj.dragArray[k].PosTop + dragObj.dragArray[k].PosHeight
-                            ) {
+                        if (movePos.x > dragObj.dragArray[k].PosLeft && movePos.x < dragObj.dragArray[k].PosLeft + dragObj.dragArray[k].PosWidth && movePos.y > dragObj.dragArray[k].PosTop && movePos.y < dragObj.dragArray[k].PosTop + dragObj.dragArray[k].PosHeight ) {
                             targetDiv = $.getId(dragObj.dragArray[k].DragId);
                             if (movePos.y < dragObj.dragArray[k].PosTop + dragObj.dragArray[k].PosHeight / 2) {
                                 //往上移
@@ -166,6 +171,7 @@ Drag.prototype = {
                 }
             };
             document.onmouseup = function() {
+				//做一些清理工作
                 if (dragObj.moveable) {
                     if ($.isIE) {
                         dragDiv.releaseCapture();

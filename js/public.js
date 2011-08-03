@@ -39,6 +39,12 @@ var $ = {
         }
         return null;
     },
+	getCtrl: function(e){
+		if (document.all) {
+            return window.event.ctrlKey;
+        }
+		return (typeof e.ctrlKey != 'undefined') ? e.ctrlKey : e.modifiers & Event.CONTROL_MASK > 0;
+	},
     //获取鼠标的位置，返回{x:0, y:0}这样的形式
     getMousePos: function(ev) {
         if (!ev) {
