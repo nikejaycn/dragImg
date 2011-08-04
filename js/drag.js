@@ -11,7 +11,8 @@ Drag.prototype = {
         //外层
         wrapDiv = $.getClass(wrapDiv);
         dragDiv = $.getItself(dragDiv);
-        
+		//追加数组
+        ctrlObjArr = [];
 		//判断ctrl键是否被按下
 		isCtrl = false;
 		
@@ -48,6 +49,12 @@ Drag.prototype = {
 			//创建虚线框
             var dashedElement = $.createDashedElement(dragDiv);
 			
+			//FireFox 去除容器内拖拽图片问题
+            if (ev.preventDefault) {
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+			
 			//获取当前元素的基本信息，在dom中的节点位置，相对于浏览器的x，y坐标
             var tempCount;
             for (c = 0; c < wrapDiv.length; c++) {
@@ -63,16 +70,33 @@ Drag.prototype = {
 			
             if(isCtrl){
                 //追加点击元素
-				var ctrlObjArr = [];
-				var tmpDivPos = $.getElementPos(dragDiv);
-				ctrlObjArr.push({
-					obj: dragDiv,
-					countId: tempCount,
-					firstChildUp: tmpPosFirstChild.y,
-					lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight,
-					tmpX: tmpDivPos.x,
-					tmpY: tmpDivPos.y
-				});
+				var tmpDivPos = $.getElementPos(dragDiv),
+					isExists = false;
+				
+				//判断当前点击元素是否已经存在数组中，如果已经存在，就删除
+				if(ctrlObjArr.length != 0){
+					for(var l = 0; l < ctrlObjArr.length; l++){
+						if(ctrlObjArr[l].objIdName === dragDiv.id){
+							//删除元素
+							ctrlObjArr.splice(l, 1);
+							isExists = true;
+						}
+					}
+				}
+
+				if(!isExists){
+					ctrlObjArr.push({
+						obj: dragDiv,
+						objIdName: dragDiv.id,
+						countId: tempCount,
+						firstChildUp: tmpPosFirstChild.y,
+						lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight,
+						tmpX: tmpDivPos.x,
+						tmpY: tmpDivPos.y
+					});
+					//恢复默认值
+					isExists = false;
+				}
 				//test
 				/*
 				try{
@@ -87,7 +111,7 @@ Drag.prototype = {
 					lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight
 				};
                 //保存当前所有可拖拽各容器的所在位置
-                dragObj.dragArray = dragObj.RegDragsPos();
+                dragObj.dragArray = $.regDragsPos("container", "dragDiv");
                 
 				//插入虚线框
                 if (dragDiv.nextSibling) {
@@ -100,7 +124,7 @@ Drag.prototype = {
                 dragDiv.style.width = dragDiv.offsetWidth + "px";
                 dragDiv.style.position = "absolute";
                 dragObj.moveable = true;
-                dragDiv.style.zIndex = dragObj.GetZindex() + 1;
+                dragDiv.style.zIndex = $.getZindex() + 1;
                 var downPos = $.getMousePos(ev);
                 
                 dragObj.tmpX = downPos.x - dragDiv.offsetLeft;
@@ -112,13 +136,8 @@ Drag.prototype = {
                     window.captureEvents(Event.mousemove);
                 }
                 //改变当前对象的透明度
-                dragObj.SetOpacity(dragDiv, dragObj.opacity);
+                $.setOpacity(dragDiv, dragObj.opacity);
                 
-                //FireFox 去除容器内拖拽图片问题
-                if (ev.preventDefault) {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                }
                 //移动的时候
                 document.onmousemove = function(e) {
                     if (dragObj.moveable) {
@@ -133,6 +152,7 @@ Drag.prototype = {
                         var movePos = $.getMousePos(ev);
                         
                         //alert("d-x:" + downPos.x +" d-x:" + downPos.y + " t-x:" + dragObj.tmpX + " t-y" + dragObj.tmpY)
+						//设定移动位置
                         var _left = Math.min(movePos.x - dragObj.tmpX, dragObj.dragArea.maxRight),
                             _top = Math.min(movePos.y - dragObj.tmpY, dragObj.dragArea.maxBottom);
                             
@@ -179,7 +199,7 @@ Drag.prototype = {
                                     }
                                 }
                             }
-                        }
+                        } // end the for
                         
                         
                         for (j = 0; j < wrapDiv.length; j++) {
@@ -213,10 +233,11 @@ Drag.prototype = {
                                     }
                                 }
                             }
-                        }
+                        }// end the for
                         
                     }
-                };
+                };//end the document.onmousemove
+				
                 document.onmouseup = function() {
 					//恢复ctrl键位状态
 					isCtrl = false;
@@ -228,7 +249,7 @@ Drag.prototype = {
                         else {
                             window.releaseEvents(dragDiv.mousemove);
                         }
-                        dragObj.SetOpacity(dragDiv, 100);
+                        $.setOpacity(dragDiv, 100);
                         dragObj.moveable = false;
                         dragObj.tmpX = 0;
                         dragObj.tmpY = 0;
@@ -242,45 +263,10 @@ Drag.prototype = {
                         dashedElement.parentNode.insertBefore(dragDiv, dashedElement);
                         dashedElement.parentNode.removeChild(dashedElement);
                     }
-                };
-                //结束
-            }
-        }
-    },
-    SetOpacity: function(dragDiv, n) {
-        if ($.isIE) {
-            dragDiv.filters.alpha.opacity = n;
-        }
-        else {
-            dragDiv.style.opacity = n / 100;
-        }
-    },
-    GetZindex: function() {
-        var maxZindex = 0;
-        var divs = document.getElementsByTagName("div");
-        for (z = 0; z < divs.length; z++) {
-            maxZindex = Math.max(maxZindex, divs[z].style.zIndex);
-        }
-        return maxZindex;
-    },
-    RegDragsPos: function() {
-        var arrDragDivs = new Array();
-        var dragTbl = $.getId("container");
-        var tmpDiv, tmpPos;
-        for (i = 0; i < dragTbl.getElementsByTagName("div").length; i++) {
-            tmpDiv = dragTbl.getElementsByTagName("div")[i];
-            if (tmpDiv.className == "dragDiv") {
-                tmpPos = $.getElementPos(tmpDiv);
-                arrDragDivs.push({
-                    DragId: tmpDiv.id,
-                    PosLeft: tmpPos.x,
-                    PosTop: tmpPos.y,
-                    PosWidth: tmpDiv.offsetWidth,
-                    PosHeight: tmpDiv.offsetHeight
-                });
-            }
-        }
-        //alert(arrDragDivs);
-        return arrDragDivs;
-    }
+                }; //end the document.onmouseup
+				
+            }//end the isCtrl
+			
+        }// end the dragDiv.onmousedown
+    }// end the init
 }

@@ -30,7 +30,7 @@ hr { border: none;height: 1px;}
 .hidden{visibility:hidden;}
 
 /* container */
-#container{width:800px; margin:0 auto;}
+#container, #header{width:800px; margin:0 auto;}
 .dragImg{width: 120px; margin:0 auto;}
 .wrap{width:120px; float:left; margin:10px;}
 

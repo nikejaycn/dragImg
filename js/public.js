@@ -122,5 +122,44 @@ var $ = {
 			return d;
 		}
 		return false;
-	}
+	},
+	//设定透明度
+	setOpacity: function(dragDiv, n) {
+        if ($.isIE) {
+            dragDiv.filters.alpha.opacity = n;
+        }
+        else {
+            dragDiv.style.opacity = n / 100;
+        }
+    },
+	//返回可拖拽元素集合
+	regDragsPos: function(id, CName) {
+        var arrDragDivs = new Array();
+        var dragObj = $.getItself(id);
+        var tmpDiv, tmpPos;
+        for (i = 0; i < dragObj.getElementsByTagName("div").length; i++) {
+            tmpDiv = dragObj.getElementsByTagName("div")[i];
+            if (tmpDiv.className == CName) {
+                tmpPos = $.getElementPos(tmpDiv);
+                arrDragDivs.push({
+                    DragId: tmpDiv.id,
+                    PosLeft: tmpPos.x,
+                    PosTop: tmpPos.y,
+                    PosWidth: tmpDiv.offsetWidth,
+                    PosHeight: tmpDiv.offsetHeight
+                });
+            }
+        }
+        //alert(arrDragDivs);
+        return arrDragDivs;
+    },
+	//返回一个z轴数字
+	getZindex: function() {
+        var maxZindex = 0;
+        var divs = document.getElementsByTagName("div");
+        for (z = 0; z < divs.length; z++) {
+            maxZindex = Math.max(maxZindex, divs[z].style.zIndex);
+        }
+        return maxZindex;
+    }
 }
