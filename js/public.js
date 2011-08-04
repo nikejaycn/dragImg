@@ -82,26 +82,12 @@ var $ = {
             y: _y
         };
     },
-    //返回本身
     getItself: function(id) {
         return "string" == typeof id ? $.getId(id) : id;
     },
-    //获取视窗大小
-    getViewportSize: {
-        w: (window.innerWidth) ? window.innerWidth : (document.documentElement && document.documentElement.clientWidth) ? document.documentElement.clientWidth : (document.body?document.body.offsetWidth:0),
-        h: (window.innerHeight) ? window.innerHeight : (document.documentElement && document.documentElement.clientHeight) ? document.documentElement.clientHeight : (document.body ? document.body.offsetHeight : 0)
-    },
     //判断是否为IE
     isIE: document.all ? true : false,
-    //设置外部HTML
-    setOuterHtml: function(obj, html) {
-        var Objrange = document.createRange();
-        obj.innerHTML = html;
-        Objrange.selectNodeContents(obj);
-        var frag = Objrange.extractContents();
-        obj.parentNode.insertBefore(frag, obj);
-        obj.parentNode.removeChild(obj);
-    },
+    
     //获取第一个子元素
     firstChild: function(parentObj, tagName) {
         if ($.isIE) {
