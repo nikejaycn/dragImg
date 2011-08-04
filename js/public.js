@@ -107,5 +107,20 @@ var $ = {
             var arr = parentObj.getElementsByTagName(tagName);
             return arr[arr.length - 1];
         }
-    }
+    },
+	//穿件一个虚线框
+	createDashedElement: function(dragDiv){
+		if(typeof dragDiv == "object"){
+			var d = document.createElement("div");
+			d.style.cssText = dragDiv.style.cssText;
+			d.style.border = "dashed 1px #aaa";
+			d.style.display = "inline-block";
+			//d.style.marginBottom = "6px";
+			d.style.width = dragDiv.offsetWidth - 2 * parseInt(d.style.borderWidth) + "px"; //减去boderWidth使虚线框大小保持与dragDiv一致
+			d.style.height = dragDiv.offsetHeight - 8 * parseInt(d.style.borderWidth) + "px"; //加上px 保证FF正确
+			d.style.position = "relative";
+			return d;
+		}
+		return false;
+	}
 }

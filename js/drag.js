@@ -11,7 +11,6 @@ Drag.prototype = {
         //外层
         wrapDiv = $.getClass(wrapDiv);
         dragDiv = $.getItself(dragDiv);
-		ctrlObjArr = [];
         
 		//判断ctrl键是否被按下
 		isCtrl = false;
@@ -45,40 +44,52 @@ Drag.prototype = {
             else {
                 return false;
             }
-            if(isCtrl){
-                //追加点击元素
-            }else{
-                //获取当前元素的基本信息，在dom中的节点位置，相对于浏览器的x，y坐标
-                var tmpColId;
-                for (c = 0; c < wrapDiv.length; c++) {
-                    for (k = 0; k < wrapDiv[c].getElementsByTagName("div").length; k++) {
-                        if (dragDiv.id == wrapDiv[c].getElementsByTagName("div")[k].id) {
-                            tmpColId = c;
-                            break;
-                        }
+			
+			//创建虚线框
+            var dashedElement = $.createDashedElement(dragDiv);
+			
+			//获取当前元素的基本信息，在dom中的节点位置，相对于浏览器的x，y坐标
+            var tempCount;
+            for (c = 0; c < wrapDiv.length; c++) {
+                for (k = 0; k < wrapDiv[c].getElementsByTagName("div").length; k++) {
+                    if (dragDiv.id == wrapDiv[c].getElementsByTagName("div")[k].id) {
+                        tempCount = c;
+                        break;
                     }
                 }
-                var tmpPosFirstChild = $.getElementPos($.firstChild(wrapDiv[tmpColId], "div"));
-                var tmpPosLastChild = $.getElementPos($.lastChild(wrapDiv[tmpColId], "div"));
-                var tmpObj = {
-                    colId: tmpColId,
-                    firstChildUp: tmpPosFirstChild.y,
-                    lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tmpColId],"div").offsetHeight
-                };
+            }
+            var tmpPosFirstChild = $.getElementPos($.firstChild(wrapDiv[tempCount], "div")),
+				tmpPosLastChild = $.getElementPos($.lastChild(wrapDiv[tempCount], "div"));
+			
+            if(isCtrl){
+                //追加点击元素
+				var ctrlObjArr = [];
+				var tmpDivPos = $.getElementPos(dragDiv);
+				ctrlObjArr.push({
+					obj: dragDiv,
+					countId: tempCount,
+					firstChildUp: tmpPosFirstChild.y,
+					lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight,
+					tmpX: tmpDivPos.x,
+					tmpY: tmpDivPos.y
+				});
+				//test
+				/*
+				try{
+				alert(ctrlObjArr[ctrlObjArr.length - 1].tmpX + " : " + ctrlObjArr[ctrlObjArr.length - 1].tmpY);
+				}catch(e){}
+				*/
+            }else{
                 
+				var tmpObj = {
+					countId: tempCount,
+					firstChildUp: tmpPosFirstChild.y,
+					lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight
+				};
                 //保存当前所有可拖拽各容器的所在位置
                 dragObj.dragArray = dragObj.RegDragsPos();
-                            
-                //插入虚线框并设置样式
-                var dashedElement = document.createElement("div");
-                dashedElement.style.cssText = dragDiv.style.cssText;
-                dashedElement.style.border = "dashed 1px #aaa";
-                dashedElement.style.display = "inline-block";
-                //dashedElement.style.marginBottom = "6px";
-                dashedElement.style.width = dragDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px"; //减去boderWidth使虚线框大小保持与dragDiv一致
-                dashedElement.style.height = dragDiv.offsetHeight - 8 * parseInt(dashedElement.style.borderWidth) + "px"; //加上px 保证FF正确
-                dashedElement.style.position = "relative";
                 
+				//插入虚线框
                 if (dragDiv.nextSibling) {
                     dragDiv.parentNode.insertBefore(dashedElement, dragDiv.nextSibling);
                 }
@@ -184,7 +195,7 @@ Drag.prototype = {
                                     var posLastChild = $.getElementPos($.lastChild(wrapDiv[j], "div"));
                                     //处理特殊情况：在最上/下面MOVE时不碰到现有div的情况下，又回到起始拖拽的列最上/下方
                                     var tmpUp, tmpDown;
-                                    if (tmpObj.colId == j) {
+                                    if (tmpObj.countId == j) {
                                         tmpUp = tmpObj.firstChildUp;
                                         tmpDown = tmpObj.lastChildDown;
                                     }
@@ -207,6 +218,8 @@ Drag.prototype = {
                     }
                 };
                 document.onmouseup = function() {
+					//恢复ctrl键位状态
+					isCtrl = false;
                     //做一些清理工作
                     if (dragObj.moveable) {
                         if ($.isIE) {
@@ -224,6 +237,7 @@ Drag.prototype = {
                         dragDiv.style.top = "";
                         dragDiv.style.width = "";
                         dragDiv.style.position = "";
+						
                         //插入对象
                         dashedElement.parentNode.insertBefore(dragDiv, dashedElement);
                         dashedElement.parentNode.removeChild(dashedElement);
