@@ -36,6 +36,7 @@ Drag.prototype = {
         //修成为全体移动 鼠标点击可以移动
         dragDiv.onmousedown = function(e) {
             var ev = e || window.event || $.getEvent();
+
             //只允许通过鼠标左键进行拖拽,IE鼠标左键为1 FireFox为0
             if ($.isIE && ev.button == 1 || !$.isIE && ev.button == 0) {
 				if($.getCtrl(ev)){
@@ -97,6 +98,13 @@ Drag.prototype = {
 					//恢复默认值
 					isExists = false;
 				}
+				
+				//开始循环拖动元素
+				/*
+				document.onmousemove = function(e){
+					alert('none');
+				}
+				*/
 				//test
 				/*
 				try{
