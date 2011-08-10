@@ -2,3 +2,4 @@
 2011.08.02 已完成基本的拖拽效果
 2011.08.03 开始加入ctrl的判断，目前打算使用push的方式保存对象，然后循环输出
 2011.08.04 把ctrl+鼠标左键点击的元素push进去了ctrlObjArr数组的，并判断点击，if(ctrlObjArr[i] = true) removeTheElemt
+2011.08.10 转换了一下编码，方便在github上面查看

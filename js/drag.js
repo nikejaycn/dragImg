@@ -8,22 +8,22 @@ var Class = {
 var Drag = Class.create();
 Drag.prototype = {
     init: function(dragDiv, wrapDiv) {
-        //Íâ²ã
+        //å¤–å±‚
         wrapDiv = $.getClass(wrapDiv);
         dragDiv = $.getItself(dragDiv);
-		//×·¼ÓÊı×é
+		//è¿½åŠ æ•°ç»„
         ctrlObjArr = [];
-		//ÅĞ¶Ïctrl¼üÊÇ·ñ±»°´ÏÂ
+		//åˆ¤æ–­ctrlé”®æ˜¯å¦è¢«æŒ‰ä¸‹
 		isCtrl = false;
 		
-		//×î´óÒÆ¶¯·¶Î§
+		//æœ€å¤§ç§»åŠ¨èŒƒå›´
         this.dragArea = {
             maxLeft: -9999,
             maxRight: 9999,
             maxTop: -9999,
             maxBottom: 9999
         };
-         //ÉèÖÃµã»÷Ä¬ÈÏÍ¸Ã÷60%
+         //è®¾ç½®ç‚¹å‡»é»˜è®¤é€æ˜60%
         this.opacity = 60;
 					
         this.originDragDiv = null;
@@ -33,11 +33,11 @@ Drag.prototype = {
         this.dragArray = [];
         var dragObj = this;
 					
-        //ĞŞ³ÉÎªÈ«ÌåÒÆ¶¯ Êó±êµã»÷¿ÉÒÔÒÆ¶¯
+        //ä¿®æˆä¸ºå…¨ä½“ç§»åŠ¨ é¼ æ ‡ç‚¹å‡»å¯ä»¥ç§»åŠ¨
         dragDiv.onmousedown = function(e) {
             var ev = e || window.event || $.getEvent();
 
-            //Ö»ÔÊĞíÍ¨¹ıÊó±ê×ó¼ü½øĞĞÍÏ×§,IEÊó±ê×ó¼üÎª1 FireFoxÎª0
+            //åªå…è®¸é€šè¿‡é¼ æ ‡å·¦é”®è¿›è¡Œæ‹–æ‹½,IEé¼ æ ‡å·¦é”®ä¸º1 FireFoxä¸º0
             if ($.isIE && ev.button == 1 || !$.isIE && ev.button == 0) {
 				if($.getCtrl(ev)){
 					isCtrl = true;
@@ -47,16 +47,16 @@ Drag.prototype = {
                 return false;
             }
 			
-			//´´½¨ĞéÏß¿ò
+			//åˆ›å»ºè™šçº¿æ¡†
             var dashedElement = $.createDashedElement(dragDiv);
 			
-			//FireFox È¥³ıÈİÆ÷ÄÚÍÏ×§Í¼Æ¬ÎÊÌâ
+			//FireFox å»é™¤å®¹å™¨å†…æ‹–æ‹½å›¾ç‰‡é—®é¢˜
             if (ev.preventDefault) {
                 ev.preventDefault();
                 ev.stopPropagation();
             }
 			
-			//»ñÈ¡µ±Ç°ÔªËØµÄ»ù±¾ĞÅÏ¢£¬ÔÚdomÖĞµÄ½ÚµãÎ»ÖÃ£¬Ïà¶ÔÓÚä¯ÀÀÆ÷µÄx£¬y×ø±ê
+			//è·å–å½“å‰å…ƒç´ çš„åŸºæœ¬ä¿¡æ¯ï¼Œåœ¨domä¸­çš„èŠ‚ç‚¹ä½ç½®ï¼Œç›¸å¯¹äºæµè§ˆå™¨çš„xï¼Œyåæ ‡
             var tempCount;
             for (c = 0; c < wrapDiv.length; c++) {
                 for (k = 0; k < wrapDiv[c].getElementsByTagName("div").length; k++) {
@@ -70,15 +70,15 @@ Drag.prototype = {
 				tmpPosLastChild = $.getElementPos($.lastChild(wrapDiv[tempCount], "div"));
 			
             if(isCtrl){
-                //×·¼Óµã»÷ÔªËØ
+                //è¿½åŠ ç‚¹å‡»å…ƒç´ 
 				var tmpDivPos = $.getElementPos(dragDiv),
 					isExists = false;
 				
-				//ÅĞ¶Ïµ±Ç°µã»÷ÔªËØÊÇ·ñÒÑ¾­´æÔÚÊı×éÖĞ£¬Èç¹ûÒÑ¾­´æÔÚ£¬¾ÍÉ¾³ı
+				//åˆ¤æ–­å½“å‰ç‚¹å‡»å…ƒç´ æ˜¯å¦å·²ç»å­˜åœ¨æ•°ç»„ä¸­ï¼Œå¦‚æœå·²ç»å­˜åœ¨ï¼Œå°±åˆ é™¤
 				if(ctrlObjArr.length != 0){
 					for(var l = 0; l < ctrlObjArr.length; l++){
 						if(ctrlObjArr[l].objIdName === dragDiv.id){
-							//É¾³ıÔªËØ
+							//åˆ é™¤å…ƒç´ 
 							ctrlObjArr.splice(l, 1);
 							isExists = true;
 						}
@@ -95,11 +95,11 @@ Drag.prototype = {
 						tmpX: tmpDivPos.x,
 						tmpY: tmpDivPos.y
 					});
-					//»Ö¸´Ä¬ÈÏÖµ
+					//æ¢å¤é»˜è®¤å€¼
 					isExists = false;
 				}
 				
-				//¿ªÊ¼Ñ­»·ÍÏ¶¯ÔªËØ
+				//å¼€å§‹å¾ªç¯æ‹–åŠ¨å…ƒç´ 
 				/*
 				document.onmousemove = function(e){
 					alert('none');
@@ -118,17 +118,17 @@ Drag.prototype = {
 					firstChildUp: tmpPosFirstChild.y,
 					lastChildDown: tmpPosLastChild.y + $.lastChild(wrapDiv[tempCount],"div").offsetHeight
 				};
-                //±£´æµ±Ç°ËùÓĞ¿ÉÍÏ×§¸÷ÈİÆ÷µÄËùÔÚÎ»ÖÃ
+                //ä¿å­˜å½“å‰æ‰€æœ‰å¯æ‹–æ‹½å„å®¹å™¨çš„æ‰€åœ¨ä½ç½®
                 dragObj.dragArray = $.regDragsPos("container", "dragDiv");
                 
-				//²åÈëĞéÏß¿ò
+				//æ’å…¥è™šçº¿æ¡†
                 if (dragDiv.nextSibling) {
                     dragDiv.parentNode.insertBefore(dashedElement, dragDiv.nextSibling);
                 }
                 else {
                     dragDiv.parentNode.appendChild(dashedElement);
                 }
-                //ÍÏ¶¯Ê±±äÎªabsolute
+                //æ‹–åŠ¨æ—¶å˜ä¸ºabsolute
                 dragDiv.style.width = dragDiv.offsetWidth + "px";
                 dragDiv.style.position = "absolute";
                 dragObj.moveable = true;
@@ -143,40 +143,40 @@ Drag.prototype = {
                 } else {
                     window.captureEvents(Event.mousemove);
                 }
-                //¸Ä±äµ±Ç°¶ÔÏóµÄÍ¸Ã÷¶È
+                //æ”¹å˜å½“å‰å¯¹è±¡çš„é€æ˜åº¦
                 $.setOpacity(dragDiv, dragObj.opacity);
                 
-                //ÒÆ¶¯µÄÊ±ºò
+                //ç§»åŠ¨çš„æ—¶å€™
                 document.onmousemove = function(e) {
                     if (dragObj.moveable) {
-                        //ÍÏ¶¯ÊÂ¼ş
+                        //æ‹–åŠ¨äº‹ä»¶
                         var ev = e || window.event || $.getEvent();
-                        //IE È¥³ıÈİÆ÷ÄÚÍÏ×§Í¼Æ¬ÎÊÌâ
+                        //IE å»é™¤å®¹å™¨å†…æ‹–æ‹½å›¾ç‰‡é—®é¢˜
                         if (document.all) //IE
                         {
                             ev.returnValue = false;
                         }
-                        //»ñÈ¡µ±Ç°Êó±êµÄ×ø±ê£¬·µ»ØÎªarr{x:0, y:0}
+                        //è·å–å½“å‰é¼ æ ‡çš„åæ ‡ï¼Œè¿”å›ä¸ºarr{x:0, y:0}
                         var movePos = $.getMousePos(ev);
                         
                         //alert("d-x:" + downPos.x +" d-x:" + downPos.y + " t-x:" + dragObj.tmpX + " t-y" + dragObj.tmpY)
-						//Éè¶¨ÒÆ¶¯Î»ÖÃ
+						//è®¾å®šç§»åŠ¨ä½ç½®
                         var _left = Math.min(movePos.x - dragObj.tmpX, dragObj.dragArea.maxRight),
                             _top = Math.min(movePos.y - dragObj.tmpY, dragObj.dragArea.maxBottom);
                             
                             _left = Math.max(_left, dragObj.dragArea.maxLeft);
                             _top = Math.max(_top, dragObj.dragArea.maxTop);
                             
-                        //¸Ä±äÍÏ¶¯¶ÔÏóµÄÎ»ÖÃ
+                        //æ”¹å˜æ‹–åŠ¨å¯¹è±¡çš„ä½ç½®
                         dragDiv.style.left = _left + "px";
                         dragDiv.style.top = _top + "px";
                         
-                        //Ä¿±êdiv
+                        //ç›®æ ‡div
                         var targetDiv = null;
                         
-                        //²åÈëÍÏ¶¯ĞéÏß¿ò
+                        //æ’å…¥æ‹–åŠ¨è™šçº¿æ¡†
                         for (var k = 0; k < dragObj.dragArray.length; k++) {
-                            //ÅĞ¶Áµ±Ç°¶ÔÏóÊÇ·ñ´æÔÚÓÚ¿ÉÍÏ×§¶ÔÏóµÄ¼¯ºÏÀïÃæ
+                            //åˆ¤è¯»å½“å‰å¯¹è±¡æ˜¯å¦å­˜åœ¨äºå¯æ‹–æ‹½å¯¹è±¡çš„é›†åˆé‡Œé¢
                             if (dragDiv == dragObj.dragArray[i]) {
                                 continue;
                             }
@@ -187,17 +187,17 @@ Drag.prototype = {
                                 _posTop = dragObj.dragArray[k].PosTop,
                                 _posHeight = dragObj.dragArray[k].PosHeight;
                                 
-                            //ÅĞ¶ÏÍÏ¶¯µÄ¶ÔÏóÍ£ÁôÔÚÄÄ¸öÎ»ÖÃ
+                            //åˆ¤æ–­æ‹–åŠ¨çš„å¯¹è±¡åœç•™åœ¨å“ªä¸ªä½ç½®
                             if (movePos.x > _posLeft && movePos.x < _posLeft + _posWidth && movePos.y > _posTop && movePos.y < _posTop + _posHeight ) {
-                                //½øĞĞ²åÈë²Ù×÷
+                                //è¿›è¡Œæ’å…¥æ“ä½œ
                                 targetDiv = $.getId(_dragId);
                                 if (movePos.y < _posTop + _posHeight / 2) {
-                                    //ÍùÉÏÒÆ
+                                    //å¾€ä¸Šç§»
                                     dashedElement.style.width = targetDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                     targetDiv.parentNode.insertBefore(dashedElement, targetDiv);
                                 }
                                 else {
-                                    //ÍùÏÂÒÆ
+                                    //å¾€ä¸‹ç§»
                                     dashedElement.style.width = targetDiv.offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                     if (targetDiv.nextSibling) {
                                         targetDiv.parentNode.insertBefore(dashedElement, targetDiv.nextSibling);
@@ -213,7 +213,7 @@ Drag.prototype = {
                         for (j = 0; j < wrapDiv.length; j++) {
                             var startLeft = $.getElementPos(wrapDiv[j]).x;
                             if (movePos.x > startLeft && movePos.x < startLeft + wrapDiv[j].offsetWidth) {
-                                //ÁĞÎŞdiv
+                                //åˆ—æ— div
                                 if (wrapDiv[j].getElementsByTagName("div").length == 0) {
                                     dashedElement.style.width = wrapDiv[j].offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                     wrapDiv[j].appendChild(dashedElement);
@@ -221,7 +221,7 @@ Drag.prototype = {
                                 else {
                                     var posFirstChild = $.getElementPos($.firstChild(wrapDiv[j], "div"));
                                     var posLastChild = $.getElementPos($.lastChild(wrapDiv[j], "div"));
-                                    //´¦ÀíÌØÊâÇé¿ö£ºÔÚ×îÉÏ/ÏÂÃæMOVEÊ±²»Åöµ½ÏÖÓĞdivµÄÇé¿öÏÂ£¬ÓÖ»Øµ½ÆğÊ¼ÍÏ×§µÄÁĞ×îÉÏ/ÏÂ·½
+                                    //å¤„ç†ç‰¹æ®Šæƒ…å†µï¼šåœ¨æœ€ä¸Š/ä¸‹é¢MOVEæ—¶ä¸ç¢°åˆ°ç°æœ‰divçš„æƒ…å†µä¸‹ï¼Œåˆå›åˆ°èµ·å§‹æ‹–æ‹½çš„åˆ—æœ€ä¸Š/ä¸‹æ–¹
                                     var tmpUp, tmpDown;
                                     if (tmpObj.countId == j) {
                                         tmpUp = tmpObj.firstChildUp;
@@ -231,11 +231,11 @@ Drag.prototype = {
                                         tmpUp = posFirstChild.y;
                                         tmpDown = posLastChild.y + $.lastChild(wrapDiv[j], "div").offsetHeight;
                                     }
-                                    if (movePos.y < tmpUp) {//´Ó×îÉÏÃæ²åÈëĞéÏß¿ò
+                                    if (movePos.y < tmpUp) {//ä»æœ€ä¸Šé¢æ’å…¥è™šçº¿æ¡†
                                         dashedElement.style.width = $.firstChild(wrapDiv[j], "div").offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                         wrapDiv[j].insertBefore(dashedElement, $.firstChild(wrapDiv[j], "div"));
                                     }
-                                    else if (movePos.y > tmpDown) {//´Ó×îÏÂÃæ²åÈëĞéÏß¿ò
+                                    else if (movePos.y > tmpDown) {//ä»æœ€ä¸‹é¢æ’å…¥è™šçº¿æ¡†
                                         dashedElement.style.width = $.lastChild(wrapDiv[j], "div").offsetWidth - 2 * parseInt(dashedElement.style.borderWidth) + "px";
                                         wrapDiv[j].appendChild(dashedElement);
                                     }
@@ -247,9 +247,9 @@ Drag.prototype = {
                 };//end the document.onmousemove
 				
                 document.onmouseup = function() {
-					//»Ö¸´ctrl¼üÎ»×´Ì¬
+					//æ¢å¤ctrlé”®ä½çŠ¶æ€
 					isCtrl = false;
-                    //×öÒ»Ğ©ÇåÀí¹¤×÷
+                    //åšä¸€äº›æ¸…ç†å·¥ä½œ
                     if (dragObj.moveable) {
                         if ($.isIE) {
                             dragDiv.releaseCapture();
@@ -261,13 +261,13 @@ Drag.prototype = {
                         dragObj.moveable = false;
                         dragObj.tmpX = 0;
                         dragObj.tmpY = 0;
-                        //Îñ±ØĞ´ÔÚ´ËIFÄÚ
+                        //åŠ¡å¿…å†™åœ¨æ­¤IFå†…
                         dragDiv.style.left = "";
                         dragDiv.style.top = "";
                         dragDiv.style.width = "";
                         dragDiv.style.position = "";
 						
-                        //²åÈë¶ÔÏó
+                        //æ’å…¥å¯¹è±¡
                         dashedElement.parentNode.insertBefore(dragDiv, dashedElement);
                         dashedElement.parentNode.removeChild(dashedElement);
                     }

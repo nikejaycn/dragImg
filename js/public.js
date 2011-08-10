@@ -1,27 +1,27 @@
 var $ = {
-	// ¼òĞ´document.getElementByIdº¯Êı
-    // @param {String} ÀàĞÍ
+	// ç®€å†™document.getElementByIdå‡½æ•°
+    // @param {String} ç±»å‹
     // @return {Object}
     getId: function(id){
         return document.getElementById(id);
     },
-	// ¸ù¾İclassName»ñÈ¡¶ÔÏó
-    // @param {String} ÀàĞÍ
+	// æ ¹æ®classNameè·å–å¯¹è±¡
+    // @param {String} ç±»å‹
     // @return {Object} Array
     getClass: function(theClass){
         var allElment = [];
                     
-        //ä¯ÀÀÆ÷ÅĞ¶Ï
+        //æµè§ˆå™¨åˆ¤æ–­
         if(typeof document.all != "undefined"){
             allElment = document.all;
         }else{
             allElment = document.getElementsByTagName("*");
         }
         var cacheArr = [];
-        //±éÀúËùÓĞµÄdom£¬·µ»ØÖ¸¶¨¶ÔÏó
+        //éå†æ‰€æœ‰çš„domï¼Œè¿”å›æŒ‡å®šå¯¹è±¡
         for(var i = 0; i < allElment.length; i++){
             var pat = new RegExp("(^| )" + theClass + "( |$)");
-            //±éÀú²éÕÒclassName,²¢±£´æµ½cacheArrÖĞ
+            //éå†æŸ¥æ‰¾className,å¹¶ä¿å­˜åˆ°cacheArrä¸­
             if(pat.test(allElment[i].className)){
                 cacheArr[cacheArr.length] = allElment[i];
             }
@@ -29,7 +29,7 @@ var $ = {
                     
         return cacheArr;
     },
-	// ÊÂ¼ş
+	// äº‹ä»¶
     // @return {Object}
     getEvent: function() {//ie/ff
         if (document.all) {
@@ -47,8 +47,8 @@ var $ = {
         }
         return null;
     },
-	// ÅĞ¶ÏctrlÊÇ·ñ±»°´ÏÂ
-	// @param {Object} ÀàĞÍ
+	// åˆ¤æ–­ctrlæ˜¯å¦è¢«æŒ‰ä¸‹
+	// @param {Object} ç±»å‹
     // @return {Boolean}
 	getCtrl: function(e){
 		if (document.all) {
@@ -56,8 +56,8 @@ var $ = {
         }
 		return (typeof e.ctrlKey != 'undefined') ? e.ctrlKey : e.modifiers & Event.CONTROL_MASK > 0;
 	},
-	// »ñÈ¡Êó±êµÄÎ»ÖÃ
-	// @param {Object} ÀàĞÍ
+	// è·å–é¼ æ ‡çš„ä½ç½®
+	// @param {Object} ç±»å‹
     // @return {Object} Array
     getMousePos: function(ev) {
         if (!ev) {
@@ -82,8 +82,8 @@ var $ = {
             };
         }
     },
-	// »ñÈ¡ÔªËØÎ»ÖÃ
-	// @param {Object}/{String} ÀàĞÍ
+	// è·å–å…ƒç´ ä½ç½®
+	// @param {Object}/{String} ç±»å‹
     // @return {Object} Array
     getElementPos: function(el) {
         el = this.getItself(el);
@@ -97,8 +97,8 @@ var $ = {
             y: _y
         };
     },
-	// »ñÈ¡ÔªËØ
-	// @param {Object}/{String} ÀàĞÍ
+	// è·å–å…ƒç´ 
+	// @param {Object}/{String} ç±»å‹
     // @return {Object}
     getItself: function(id) {
         return "string" == typeof id ? $.getId(id) : id;
@@ -107,8 +107,8 @@ var $ = {
     // @return {Boolean}
     isIE: document.all ? true : false,
     
-	// »ñÈ¡µÚÒ»¸ö×ÓÔªËØ
-	// @param {Object} ÀàĞÍ
+	// è·å–ç¬¬ä¸€ä¸ªå­å…ƒç´ 
+	// @param {Object} ç±»å‹
 	// @param {String}
     // @return {Object}
     firstChild: function(parentObj, tagName) {
@@ -121,8 +121,8 @@ var $ = {
         }
     },
 	
-    // »ñÈ¡×îºóÒ»¸ö×ÓÔªËØ
-	// @param {Object} ÀàĞÍ
+    // è·å–æœ€åä¸€ä¸ªå­å…ƒç´ 
+	// @param {Object} ç±»å‹
 	// @param {String}
     // @return {Object}
     lastChild: function(parentObj, tagName) {
@@ -134,8 +134,8 @@ var $ = {
             return arr[arr.length - 1];
         }
     },
-	// ´´½¨Ò»¸öĞéÏß¿ò
-	// @param {Object} ÀàĞÍ
+	// åˆ›å»ºä¸€ä¸ªè™šçº¿æ¡†
+	// @param {Object} ç±»å‹
     // @return {Object}
 	createDashedElement: function(dragDiv){
 		if(typeof dragDiv == "object"){
@@ -144,16 +144,16 @@ var $ = {
 			d.style.border = "dashed 1px #aaa";
 			d.style.display = "inline-block";
 			//d.style.marginBottom = "6px";
-			d.style.width = dragDiv.offsetWidth - 2 * parseInt(d.style.borderWidth) + "px"; //¼õÈ¥boderWidthÊ¹ĞéÏß¿ò´óĞ¡±£³ÖÓëdragDivÒ»ÖÂ
-			d.style.height = dragDiv.offsetHeight - 8 * parseInt(d.style.borderWidth) + "px"; //¼ÓÉÏpx ±£Ö¤FFÕıÈ·
+			d.style.width = dragDiv.offsetWidth - 2 * parseInt(d.style.borderWidth) + "px"; //å‡å»boderWidthä½¿è™šçº¿æ¡†å¤§å°ä¿æŒä¸dragDivä¸€è‡´
+			d.style.height = dragDiv.offsetHeight - 8 * parseInt(d.style.borderWidth) + "px"; //åŠ ä¸Špx ä¿è¯FFæ­£ç¡®
 			d.style.position = "relative";
 			return d;
 		}
 		return false;
 	},
-	// Éè¶¨Í¸Ã÷¶È
-	// @param {Object} ÀàĞÍ
-	// @param {Number} ÀàĞÍ
+	// è®¾å®šé€æ˜åº¦
+	// @param {Object} ç±»å‹
+	// @param {Number} ç±»å‹
 	setOpacity: function(dragDiv, n) {
         if ($.isIE) {
             dragDiv.filters.alpha.opacity = n;
@@ -162,9 +162,9 @@ var $ = {
             dragDiv.style.opacity = n / 100;
         }
     },
-	// ·µ»Ø¿ÉÍÏ×§ÔªËØ¼¯ºÏ
-	// @param {Object}/{String} ÀàĞÍ
-	// @param {String} ÀàĞÍ
+	// è¿”å›å¯æ‹–æ‹½å…ƒç´ é›†åˆ
+	// @param {Object}/{String} ç±»å‹
+	// @param {String} ç±»å‹
     // @return {Object} Array
 	regDragsPos: function(id, CName) {
         var arrDragDivs = new Array();
@@ -186,7 +186,7 @@ var $ = {
         //alert(arrDragDivs);
         return arrDragDivs;
     },
-	// ·µ»ØÒ»¸özÖáÊı×Ö
+	// è¿”å›ä¸€ä¸ªzè½´æ•°å­—
     // @return {Number}
 	getZindex: function() {
         var maxZindex = 0;
